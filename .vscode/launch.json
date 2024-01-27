@@ -5,6 +5,16 @@
   "version": "0.2.0",
   "configurations": [
       {
+        "name": "Launch TODO CMD",
+        "type": "go",
+        "request": "launch",
+        "mode": "auto",
+        "cwd": "${workspaceRoot}",
+        "program": "./interacting/todo/cmd/todo",
+        "env": {},
+        "showLog": true
+      },
+      {
         "name": "CMDGO Test Current File",
         "type": "go",
         "request": "launch",
