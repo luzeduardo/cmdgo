@@ -4,7 +4,6 @@ import (
 	"flag"
 	"fmt"
 	"os"
-	"strings"
 
 	"eduardo-luz.eu/cmdgo/interating/todo"
 )
@@ -31,13 +30,23 @@ func main() {
 				fmt.Println(item.Task)
 			}
 		}
-	default:
-		item := strings.Join(os.Args[1:], " ")
-		l.Add(item)
+	case *complete > 0:
+		if err := l.Complete(*complete); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 		if err := l.Save(todoFilename); err != nil {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
+	case *task != "":
+		l.Add(*task)
+		if err := l.Save(todoFilename); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
+	default:
+		fmt.Fprintln(os.Stderr, "Invalid option")
+		os.Exit(1)
 	}
-
 }
