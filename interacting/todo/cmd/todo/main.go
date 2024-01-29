@@ -8,7 +8,7 @@ import (
 	"eduardo-luz.eu/cmdgo/interating/todo"
 )
 
-const todoFilename = ".todo.json"
+var todoFilename = ".todo.json"
 
 func main() {
 	flag.Usage = func() {
@@ -23,6 +23,9 @@ func main() {
 	complete := flag.Int("complete", 0, "Item to be completed")
 	flag.Parse()
 
+	if os.Getenv("TODO_FILENAME") != "" {
+		todoFilename = os.Getenv("TODO_FILENAME")
+	}
 	l := &todo.List{}
 
 	if err := l.Get(todoFilename); err != nil {
