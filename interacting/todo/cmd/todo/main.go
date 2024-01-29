@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"os"
 	"strings"
@@ -11,6 +12,11 @@ import (
 const todoFilename = ".todo.json"
 
 func main() {
+	task := flag.String("task", "", "Task to be included in the ToDo list")
+	list := flag.Bool("list", false, "List all tasks")
+	complete := flag.Int("complete", 0, "Item to be completed")
+	flag.Parse()
+
 	l := &todo.List{}
 
 	if err := l.Get(todoFilename); err != nil {
@@ -19,9 +25,11 @@ func main() {
 	}
 
 	switch {
-	case len(os.Args) == 1:
+	case *list:
 		for _, item := range *l {
-			fmt.Println(item.Task)
+			if !item.Done {
+				fmt.Println(item.Task)
+			}
 		}
 	default:
 		item := strings.Join(os.Args[1:], " ")
